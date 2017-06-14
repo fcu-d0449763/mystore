@@ -1,0 +1,10 @@
+{% extends 'estore/base.html' %}
+{% load bootstrap3 %}
+{% block content %}
+    <h1>New product</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons submit='儲存' %} {% endbuttons %}
+    </form>
+{% endblock %}
