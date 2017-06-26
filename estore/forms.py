@@ -1,7 +1,9 @@
 from django import forms
-from .models import Product
 
-class ProductForm(forms.ModelForm):
+from .models import OrderInfo
+
+
+class OrderInfoForm(forms.ModelForm):
     class Meta:
-        model = Product
-        fields = ('title', 'description', 'quantity', 'price')
+        model = OrderInfo
+        fields = ['billing_name', 'billing_address', 'shipping_name', 'shipping_address']
