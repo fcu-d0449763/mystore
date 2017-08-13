@@ -25,7 +25,19 @@ class OrderDetail(generic.DetailView):
    def get_object(self):
         return get_object_or_404(Order.objects, token=uuid.UUID(self.kwargs.get('token')))
 
+class OrderPayWithCreditCard(generic.DetailView):
+    def get_object(self):
+        return get_object_or_404(Order.objects, token=uuid.UUID(self.kwargs.get('token')))
 
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        context = self.get_context_data(object=self.object)
+
+        self.object.payment_method = 'credit_card'
+        self.object.is_paid = True
+        self.object.save()
+
+        return redirect('order_detail', token=self.object.token)
 
 class OrderCreateCartCheckout(LoginRequiredMixin, generic.CreateView):
     model = Order
@@ -69,6 +81,7 @@ class OrderCreateCartCheckout(LoginRequiredMixin, generic.CreateView):
     def get_success_url(self):
         messages.success(self.request, '訂單已生成')
         return reverse('order_detail', kwargs={'token': self.object.token})
+
 
 
 class ProductList(PermissionRequiredMixin, generic.ListView):
