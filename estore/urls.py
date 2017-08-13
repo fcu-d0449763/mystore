@@ -16,9 +16,15 @@ urlpatterns = [
     url(r'^dashboard/products/create$', views.ProductCreate.as_view(), name='dashboard_product_create'),
     url(r'^dashboard/products/(?P<pk>\d+)/update$', views.ProductUpdate.as_view(), name='dashboard_product_update'),
 
+    url(r'^order/(?P<pk>\d+)/', views.OrderDetail.as_view(), name='order_detail')
+
+
     url(r'^dashboard/users/$', views.UserList.as_view(), name='dashboard_user_list'),
     url(r'^dashboard/users/(?P<pk>\d+)/addtostaff$', views.UserAddToStaff.as_view(), name='dashboard_user_addtostaff'),
     url(r'^dashboard/users/(?P<pk>\d+)/removefromstaff$', views.UserRemoveFromStaff.as_view(), name='dashboard_user_removefromstaff'),
+
+
+
 ]
 
 if settings.DEBUG:
