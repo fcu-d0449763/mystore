@@ -1,4 +1,6 @@
 {% load bootstrap3 %}
+{% load fontawesome %}
+{% load static %}
 {% bootstrap_css %}
 {% bootstrap_javascript jquery=1 %}
 <!DOCTYPE html>
@@ -12,6 +14,8 @@
 {% endblock %}
 <div class="page-header">
     <h1><a href="/">EStore - 線上電器購物第一選擇</a></h1>
+    {% fontawesome_stylesheet %}
+    <link rel="stylesheet" type="text/css" href="{% static 'estore/css/application.css' %}">
 </div>
 <div class="content container">
     {% bootstrap_messages %}
