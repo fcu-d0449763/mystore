@@ -1,13 +1,16 @@
+import uuid
+
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.models import Group, User
 from django.http import HttpResponseRedirect
-from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404,redirect
 from django.urls import reverse
 from django.views import generic
 
 from .forms import OrderInfoForm
 from .models import Order, Product
+
 
 
 
@@ -19,7 +22,8 @@ class CartDetailFromRequest(generic.DetailView):
         return self.request.cart
 
 class OrderDetail(generic.DetailView):
-    model = Order
+   def get_object(self):
+        return get_object_or_404(Order.objects, token=uuid.UUID(self.kwargs.get('token')))
 
 
 
@@ -58,13 +62,13 @@ class OrderCreateCartCheckout(LoginRequiredMixin, generic.CreateView):
         form = self.get_form()
         form_orderinfo = OrderInfoForm(request.POST)
         if form.is_valid() and form_orderinfo.is_valid():
-            return self.form_valid(form, form_orderinfo=form_orderinfo)
+            return self.form_valid(fosrm, form_orderinfo=form_orderinfo)
         else:
             return self.form_invalid(form, form_orderinfo=form_orderinfo)
 
     def get_success_url(self):
         messages.success(self.request, '訂單已生成')
-        return reverse('order_detail', kwargs={'pk': self.object.pk})
+        return reverse('order_detail', kwargs={'token': self.object.token})
 
 
 class ProductList(PermissionRequiredMixin, generic.ListView):

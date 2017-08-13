@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+import uuid
 
 
 # Create your models here.
@@ -36,6 +37,7 @@ class Order(models.Model):
     info = models.OneToOneField(OrderInfo, on_delete=models.CASCADE, primary_key=True, verbose_name='訂購資訊')
     total = models.IntegerField(default=0, verbose_name='總價')
     user = models.ForeignKey(User, verbose_name='訂購使用者')
+    token = models.UUIDField(db_index=True, default=uuid.uuid4)
 
 
 class OrderItem(models.Model):
