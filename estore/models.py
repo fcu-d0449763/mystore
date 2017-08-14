@@ -22,11 +22,13 @@ class Product(models.Model):
 
 class Cart(models.Model):
     items = models.ManyToManyField(Product)
+    quantity = models.IntegerField(default=1)  
+
 
     def total_price(self):
         sum = 0
         for product in self.items.all():
-            sum += product.price
+            sum += items.price * items.quantity
         return sum
 
 class OrderInfo(models.Model):

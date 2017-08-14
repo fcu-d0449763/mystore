@@ -17,10 +17,13 @@ from .models import Order, Product
 # Create your views here.
 
 
+
+#Cart
 class CartDetailFromRequest(generic.DetailView):
     def get_object(self):
         return self.request.cart
 
+#Order
 class OrderDetailMixin(object):
     def get_object(self):
         return get_object_or_404(self.request.user.order_set, token=uuid.UUID(self.kwargs.get('token')))
@@ -83,7 +86,7 @@ class OrderCreateCartCheckout(LoginRequiredMixin, generic.CreateView):
         return reverse('order_detail', kwargs={'token': self.object.token})
 
 
-
+#Product
 class ProductList(PermissionRequiredMixin, generic.ListView):
     model = Product
 
@@ -128,6 +131,7 @@ class ProductAddToCart(generic.DetailView):
         messages.success(self.request, '已加入購物車')
         return redirect('product_detail', pk=self.object.id)
 
+#User
 class UserList(PermissionRequiredMixin, generic.ListView):
     permission_required = 'auth.change_user'
     model = User
